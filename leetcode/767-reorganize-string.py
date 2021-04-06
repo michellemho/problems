@@ -11,21 +11,24 @@ class Solution:
             new_string = ""
             # Sort by second item in tuple of freq dictionary key-value pairs
             sort_list = sorted(freq.items(), key=lambda kv: kv[1])
-            # Alternate adding letter to beginning and end:
-            alternating_list = []
-            for i, (k,v) in enumerate(sort_list):
-                if i%2 == 0:
-                    for j in range(v):
-                        alternating_list = [k] + alternating_list
-                else:
-                    for j in range(v):
-                        alternating_list.extend(k)
-            print(alternating_list)
-            # alternate pulling from end and start of ordered_string
-            if len(sort_list)%2==0:
-                alternating_list = alternating_list[::-1]
-            while alternating_list:
-                new_string += alternating_list.pop(0)
-                if alternating_list:
-                    new_string += alternating_list.pop()
+            
+            # Expand into a list...
+            sort_string = []
+            for (k, v) in sort_list:
+                sort_string.extend([k*v])
+                
+            # Reverse so most common is first, and make a string actually
+            sort_string = "".join(sort_string[::-1])
+            
+            # Split in half
+            first_half = list(sort_string[:halflength])
+            second_half = list(sort_string[halflength:])
+            print(first_half, second_half)
+            
+            # Placing alternating letters until string is full
+            while first_half:
+                new_string = new_string + first_half.pop(0)
+                if second_half:
+                    new_string = new_string + second_half.pop(0)
+                    
             return new_string
